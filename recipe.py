@@ -13,12 +13,13 @@ from prodigy.components.loaders import JSONL
 def textcat_topic(dataset, examples):
     # set up stream; may want get_stream() instead to hash/avoid dedup
     stream = JSONL(examples)
-
     # Render highlight of each sentence 
     def add_html(examples):
         for ex in examples:
-            summary_highlight = ex["paragraph"]
-            summary_highlight = re.sub("<p score=(.*?)>", "<b style='background-color: yellow;'>", summary_highlight)
+            summary_highlight = f"<b style='background-color: cyan;'> Code = {ex['meta']['theme']} </b> \n "
+            summary_highlight += f"<b style='background-color: yellow;'> Defendant = {ex['meta']['defendant']} </b> \n "
+            summary_highlight += ex["paragraph"]
+            summary_highlight = re.sub("<p score=(.*?)>", "<b>", summary_highlight)
             summary_highlight = summary_highlight.replace(
                 "</p>", "</b>"
             )
